@@ -17,6 +17,7 @@ const DubaiMall = () => {
   const [animationRunning, setAnimationRunning] = useState(false);
   const slidesCount = 6;
   const containerRef = useRef(null);
+  const touchStart = useRef(null);
 
   const changeSlide = (index) => {
     if (animationRunning || index === activeSlide || index < 0 || index >= slidesCount) return;
@@ -27,7 +28,6 @@ const DubaiMall = () => {
       onComplete: () => {
         setActiveSlide(index);
         setAnimationRunning(false);
-        // Reset visibility for the next slide
         gsap.set('.slide-content', { opacity: 1, y: 0 });
       }
     });
@@ -43,57 +43,86 @@ const DubaiMall = () => {
       duration: 0.5,
       ease: "expo.inOut"
     })
-    .set('.transition-overlay', { opacity: 0, delay: 0.2 });
+    .set('.transition-overlay', { opacity: 0, delay: 0.1 });
   };
 
   useEffect(() => {
+    // Desktop Wheel Event
     const handleWheel = (e) => {
       if (Math.abs(e.deltaY) < 40 || animationRunning) return;
       e.deltaY > 0 ? changeSlide(activeSlide + 1) : changeSlide(activeSlide - 1);
     };
 
+    // Mobile Touch Events
+    const handleTouchStart = (e) => {
+      touchStart.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      if (!touchStart.current || animationRunning) return;
+      const touchEnd = e.touches[0].clientY;
+      const diff = touchStart.current - touchEnd;
+
+      if (Math.abs(diff) > 50) { // Threshold for swipe
+        diff > 0 ? changeSlide(activeSlide + 1) : changeSlide(activeSlide - 1);
+        touchStart.current = null;
+      }
+    };
+
     window.addEventListener('wheel', handleWheel);
-    return () => window.removeEventListener('wheel', handleWheel);
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
   }, [activeSlide, animationRunning]);
 
   return (
     <div ref={containerRef} className="fixed inset-0 overflow-hidden bg-[#050505] text-[#f5f0e8] selection:bg-[#c9a84c] selection:text-black">
       
-      <div className="absolute inset-0 z-0 transition-all duration-1000 bg-linear-to-b from-black/40 to-black" />
+      <div className="absolute inset-0 z-0 bg-linear-to-b from-black/60 via-transparent to-black" />
 
-      <nav className="fixed top-0 w-full z-1000 px-10 py-8 flex justify-between items-center backdrop-blur-sm bg-black/5">
-        <div className="font-serif text-2xl uppercase tracking-[0.5em] cursor-pointer">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-100 px-6 py-6 md:px-10 md:py-8 flex justify-between items-center backdrop-blur-md bg-black/10">
+        <div className="font-serif text-lg md:text-2xl uppercase tracking-[0.3em] md:tracking-[0.5em] cursor-pointer">
           Dubai <span className="text-[#c9a84c] font-light">Mall</span>
         </div>
-        <button className="border border-[#c9a84c]/40 px-6 py-2 text-[10px] tracking-widest uppercase hover:bg-[#c9a84c] hover:text-black transition-all duration-500">
+        <button className="hidden sm:block border border-[#c9a84c]/40 px-4 py-1.5 md:px-6 md:py-2 text-[9px] md:text-[10px] tracking-widest uppercase hover:bg-[#c9a84c] hover:text-black transition-all duration-500">
           Leasing Inquiry
         </button>
       </nav>
 
-      <div className="fixed right-10 top-1/2 -translate-y-1/2 z-1000 flex flex-col items-center gap-8">
-        <span className="text-[10px] tracking-tighter text-white/30 rotate-90 mb-4">SCROLL</span>
+      {/* Pagination */}
+      <div className="fixed right-4 md:right-10 top-1/2 -translate-y-1/2 z-100 flex flex-col items-center gap-4 md:gap-8">
+        <span className="hidden md:block text-[10px] tracking-tighter text-white/30 rotate-90 mb-4">SCROLL</span>
         {[...Array(slidesCount)].map((_, i) => (
           <div key={i} className="group relative flex items-center justify-center">
             <button
               onClick={() => changeSlide(i)}
               className={`transition-all duration-700 ${
-                activeSlide === i ? 'h-12 w-0.5 bg-[#c9a84c]' : 'h-4 w-px bg-white/20 hover:bg-white/50'
+                activeSlide === i 
+                ? 'h-8 md:h-12 w-1 md:w-0.5 bg-[#c9a84c]' 
+                : 'h-3 md:h-4 w-px bg-white/20 hover:bg-white/50'
               }`}
             />
-            {activeSlide === i && (
-              <span className="absolute right-6 text-[10px] tracking-[0.3em] text-[#c9a84c] uppercase opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                Section 0{i + 1}
-              </span>
-            )}
+          
+            <span className="hidden lg:block absolute right-6 text-[10px] tracking-[0.3em] text-[#c9a84c] uppercase opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+              Section 0{i + 1}
+            </span>
           </div>
         ))}
       </div>
 
-      <div className="fixed top-0 left-0 h-0.5 bg-[#c9a84c] z-1001 transition-all duration-500" 
+      {/* Progress Bar */}
+      <div className="fixed top-0 left-0 h-0.75 bg-[#c9a84c] z-101 transition-all duration-500" 
            style={{ width: `${((activeSlide + 1) / slidesCount) * 100}%` }} />
 
-      <main className="relative h-full w-full slide-content">
-        <div className="h-full w-full transition-opacity duration-1000">
+      {/* Main Content Container - Added Responsive Padding */}
+      <main className="relative h-full w-full slide-content px-6 md:px-0">
+        <div className="h-full w-full flex items-center justify-center">
           {activeSlide === 0 && <HeroSlide />}
           {activeSlide === 1 && <StatsSlide />}
           {activeSlide === 2 && <RetailSlide />}
@@ -103,7 +132,8 @@ const DubaiMall = () => {
         </div>
       </main>
 
-      <div className="transition-overlay pointer-events-none fixed inset-0 z-500 bg-black opacity-0" />
+      {/* Transition Overlay */}
+      <div className="transition-overlay pointer-events-none fixed inset-0 z-50 bg-black opacity-0" />
     </div>
   );
 };

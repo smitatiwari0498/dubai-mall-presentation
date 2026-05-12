@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
+// Data Arrays
 const statsData = [
   { number: 80, suffix: "M+", label: "ANNUAL VISITORS" },
   { number: 1200, suffix: "+", label: "RETAIL STORES" },
@@ -10,31 +11,14 @@ const statsData = [
 ];
 
 const featureCards = [
-  {
-    icon: "🏛️",
-    title: "Iconic Architecture",
-  },
-  {
-    icon: "🐠",
-    title: "World-Class Aquarium",
-  },
-  {
-    icon: "🏙️",
-    title: "Burj Khalifa Views",
-  },
+  { icon: "🏛️", title: "Architecture" }, // Shortened for mobile
+  { icon: "🐠", title: "Aquarium" },
+  { icon: "🏙️", title: "Burj Views" },
 ];
 
 const luxuryBrands = [
-  "BURBERRY",
-  "FENDI",
-  "CARTIER",
-  "CHANEL",
-  "LOUIS VUITTON",
-  "GUCCI",
-  "DIOR",
-  "HERMÈS",
-  "PRADA",
-  "VERSACE",
+  "BURBERRY", "FENDI", "CARTIER", "CHANEL", "LOUIS VUITTON", 
+  "GUCCI", "DIOR", "HERMÈS", "PRADA", "VERSACE",
 ];
 
 const StatsSlide = () => {
@@ -42,56 +26,37 @@ const StatsSlide = () => {
 
   useGSAP(
     () => {
-      // Counter Animation
       gsap.utils.toArray(".count-number").forEach((counter) => {
-        const targetValue = Number(
-          counter.getAttribute("data-value")
-        );
-
+        const targetValue = Number(counter.getAttribute("data-value"));
         gsap.fromTo(
           counter,
-          {
-            innerText: 0,
-          },
+          { innerText: 0 },
           {
             innerText: targetValue,
             duration: 2,
             ease: "power2.out",
             snap: { innerText: 1 },
-
             onUpdate() {
-              counter.innerText = Math.floor(
-                this.targets()[0].innerText
-              ).toLocaleString();
+              counter.innerText = Math.floor(this.targets()[0].innerText).toLocaleString();
             },
           }
         );
       });
 
-      // Content Animation
       gsap.from(".content-fade", {
         opacity: 0,
-        y: 40,
+        y: 30,
         duration: 1,
         stagger: 0.2,
       });
 
-      // Stats Card Animation
-      gsap.fromTo(
-        ".stat-box",
-        {
-          opacity: 0,
-          y: 40,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          delay: 0.4,
-          ease: "power3.out",
-        }
-      );
+      gsap.from(".stat-box", {
+        opacity: 0,
+        scale: 0.9,
+        duration: 0.8,
+        stagger: 0.1,
+        delay: 0.5,
+      });
     },
     { scope: containerRef }
   );
@@ -99,79 +64,73 @@ const StatsSlide = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full min-h-screen bg-black text-white overflow-x-hidden"
+      className="relative w-full min-h-screen bg-[#050505] text-white flex flex-col justify-center py-20 lg:py-0 overflow-hidden"
     >
-      {/* MAIN CONTENT */}
-      <div className="max-w-325 mx-auto mt-10 px-6 lg:px-12 py-20 grid lg:grid-cols-2 gap-16 items-center">
-        {/* LEFT CONTENT */}
-        <div className="space-y-10">
-          {/* HEADING */}
-          <div className="space-y-5 content-fade">
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-px bg-[#c9a84c]" />
+      <style>
+        {`
+          @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee-custom {
+            display: flex;
+            animation: marquee-scroll 40s linear infinite;
+          }
+        `}
+      </style>
 
-              <span className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        
+        {/* LEFT CONTENT */}
+        <div className="space-y-6 md:space-y-10 w-full">
+          <div className="space-y-4 content-fade">
+            <div className="flex items-center gap-3">
+              <div className="w-6 md:w-8 h-px bg-[#c9a84c]" />
+              <span className="text-[8px] md:text-[10px] tracking-[0.3em] md:tracking-[0.4em] uppercase text-[#c9a84c]">
                 The World's Largest Mall
               </span>
             </div>
-
-            <h2 className="text-4xl lg:text-5xl font-serif leading-tight">
-              Beyond Shopping,
-              <br />
-
+            
+            
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif leading-tight">
+              Beyond Shopping, &nbsp;
               <span className="italic text-[#c9a84c] font-light">
                 A Universe Unto Itself
               </span>
             </h2>
-
-            <p className="text-sm leading-7 text-white/60 max-w-xl">
-              With over 13 million square feet, Dubai Mall is more
-              than a shopping destination — it is a world where
-              luxury, culture, entertainment and architecture
-              converge in spectacular fashion.
+            
+            <p className="text-[10px] md:text-sm leading-relaxed text-white/60 max-w-xl">
+              With over 13 million square feet, Dubai Mall is a world where
+              luxury, culture, and architecture converge.
             </p>
           </div>
 
-          {/* STATS GRID */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl">
+          {/* STATS GRID -*/}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 w-full">
             {statsData.map((item, index) => (
               <div
                 key={index}
-                className="stat-box bg-white/3 border border-white/10 backdrop-blur-sm px-4 py-5 rounded-sm flex flex-col items-center justify-center text-center hover:border-[#c9a84c]/40 transition-all duration-500"
+                className="stat-box bg-white/5 border border-white/10 p-4 md:p-5 rounded-sm text-center"
               >
-                <h3 className="flex items-end gap-1 text-[#c9a84c] font-serif leading-none">
-                  <span
-                    className="count-number text-2xl lg:text-3xl"
-                    data-value={item.number}
-                  >
+                <h3 className="flex items-end justify-center gap-0.5 text-[#c9a84c] font-serif">
+                  <span className="count-number text-xl md:text-3xl" data-value={item.number}>
                     0
                   </span>
-
-                  <span className="text-[11px] opacity-70 mb-0.5">
-                    {item.suffix}
-                  </span>
+                  <span className="text-[10px] opacity-70 mb-1">{item.suffix}</span>
                 </h3>
-
-                <p className="mt-2 text-[8px] tracking-[0.25em] uppercase text-white/40 leading-relaxed">
+                <p className="mt-1 md:mt-2 text-[7px] md:text-[8px] tracking-widest uppercase text-white/40">
                   {item.label}
                 </p>
-                
               </div>
             ))}
           </div>
 
-          {/* FEATURES */}
-          <div className="content-fade flex items-center justify-between gap-4 border-t border-[#c9a84c]/60 pt-5 max-w-4xl">
+          {/* FEATURES - Wrap properly on mobile */}
+          <div className="content-fade flex flex-wrap gap-4 md:gap-6 border-t border-white/10 pt-6">
             {featureCards.map((card, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-2"
-              >
-                <span className="text-sm">
-                  {card.icon}
-                </span>
-
-                <h4 className="text-[8px] lg:text-[9px] tracking-[0.2em] uppercase text-white/70 whitespace-nowrap">
+              <div key={index} className="flex items-center gap-2">
+                <span className="text-sm md:text-lg">{card.icon}</span>
+                <h4 className="text-[8px] md:text-[9px] tracking-widest uppercase text-white/70">
                   {card.title}
                 </h4>
               </div>
@@ -180,44 +139,35 @@ const StatsSlide = () => {
         </div>
 
         {/* RIGHT IMAGES */}
-        <div className="relative">
-          {/* MAIN IMAGE */}
+        <div className="relative hidden lg:block">
           <div className="relative w-[85%] ml-auto aspect-4/3 overflow-hidden border border-white/10">
             <img
               src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1600"
-              alt="Dubai Skyline"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover grayscale-20"
+              alt="Dubai"
             />
-
-            <div className="absolute bottom-4 left-4 text-[8px] tracking-[0.3em] uppercase text-white">
-              Downtown Dubai, UAE
-            </div>
           </div>
-
-          {/* SMALL FLOATING IMAGE */}
-          <div className="absolute -bottom-10 right-0 w-[38%] aspect-square border-4 border-black overflow-hidden shadow-2xl">
+          <div className="absolute -bottom-10 left-10 w-[40%] aspect-square border-[6px] border-[#050505] shadow-2xl">
             <img
               src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1200"
-              alt="Luxury Resort"
               className="w-full h-full object-cover"
+              alt="Luxury"
             />
           </div>
         </div>
       </div>
 
-      {/* MARQUEE */}
-      <div className="h-16 border-t border-b  border-[#c9a84c]/40 flex items-center overflow-hidden">
-        <div className="animate-marquee flex items-center gap-20 whitespace-nowrap px-10">
-          {[...luxuryBrands, ...luxuryBrands].map(
-            (brand, index) => (
-              <span
-                key={index}
-                className="text-[11px] tracking-[0.5em] text-white/40 hover:text-[#c9a84c] transition-colors duration-300"
-              >
-                {brand}
-              </span>
-            )
-          )}
+      {/* MARQUEE FOOTER */}
+      <div className="absolute bottom-0 w-full h-10 md:h-14 border-t border-white/5 flex items-center overflow-hidden bg-black">
+        <div className="animate-marquee-custom whitespace-nowrap">
+          {[...luxuryBrands, ...luxuryBrands, ...luxuryBrands].map((brand, i) => (
+            <span
+              key={i}
+              className="mx-4 md:mx-8 text-[8px] md:text-[10px] tracking-[0.3em] md:tracking-[0.4em] text-white/20 uppercase"
+            >
+              {brand}
+            </span>
+          ))}
         </div>
       </div>
     </section>
