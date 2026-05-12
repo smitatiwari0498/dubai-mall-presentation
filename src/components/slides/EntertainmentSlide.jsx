@@ -69,22 +69,7 @@ const EntertainmentSlide = () => {
         ))}
       </div>
 
-      {/* MOBILE LIST VIEW (Images/Videos Hidden) */}
-      <div className="md:hidden space-y-2 mb-10">
-        {[mainEntertainment, ...entertainmentCards].map((item, index) => (
-          <div 
-            key={index} 
-            onClick={() => openModal(item)}
-            className="border-b border-white/10 py-4 flex justify-between items-center active:bg-white/5"
-          >
-            <div>
-              <p className="text-[7px] text-[#c9a84c] uppercase tracking-widest">{item.cat}</p>
-              <span className="font-serif text-lg">{item.title}</span>
-            </div>
-            <span className="text-[#c9a84c] text-xl">→</span>
-          </div>
-        ))}
-      </div>
+      
 
       {/* DESKTOP GRID VIEW (Hidden on Mobile) */}
       <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 h-[55vh] lg:h-[60vh]">
