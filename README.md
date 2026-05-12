@@ -24,5 +24,5 @@ Follow these steps to run the project locally:
 
 ### 1. Clone the repository
 ```bash
-git clone [https://github.com/YOUR_GITHUB_USERNAME/dubai-mall-react.git](https://github.com/YOUR_GITHUB_USERNAME/dubai-mall-react.git)
-cd dubai-mall-react
+git clone https://github.com/smitatiwari0498/dubai-mall-presentation.git
+cd dubai-mall-presentation
