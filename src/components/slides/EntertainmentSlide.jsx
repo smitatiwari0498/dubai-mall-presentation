@@ -78,7 +78,7 @@ const EntertainmentSlide = () => {
           onClick={() => openModal(mainEntertainment)}
           className="ent-card lg:col-span-1 lg:row-span-2 relative overflow-hidden group cursor-pointer bg-white/5"
         >
-          <video autoPlay muted loop playsInline src={mainEntertainment.video} className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-all duration-700"/>
+          <video autoPlay muted loop playsInline preload="none" src={mainEntertainment.video} className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-all duration-700"/>
           <div className="absolute inset-0 p-8 lg:p-10 flex flex-col justify-end bg-linear-to-t from-black via-black/40 to-transparent">
             <p className="text-[#c9a84c] text-[9px] lg:text-[10px] uppercase tracking-widest">{mainEntertainment.cat}</p>
             <h3 className="text-2xl lg:text-3xl font-serif">{mainEntertainment.title}</h3>
@@ -89,7 +89,7 @@ const EntertainmentSlide = () => {
         {/* Small Cards */}
         {entertainmentCards.map((item, index) => (
           <div key={index} onClick={() => openModal(item)} className="ent-card relative overflow-hidden group cursor-pointer bg-white/5">
-            <video autoPlay muted loop playsInline src={item.video} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700"/>
+            <video autoPlay muted loop playsInline preload="none" src={item.video} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700"/>
             <div className="absolute inset-0 p-6 flex flex-col justify-end bg-linear-to-t from-black/90 via-black/20 to-transparent">
               <p className="text-[#c9a84c] text-[8px] lg:text-[9px] uppercase tracking-widest">{item.cat}</p>
               <h3 className="text-base lg:text-xl font-serif">{item.title}</h3>

@@ -4,6 +4,28 @@
 * {
   cursor: none;
 }
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: black;
+  color: white;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background: #050505;
+}
+
+.hero-subtitle, .title-word {
+  will-change: transform, opacity;
+}
+
+.hero-content, .retail-card, .event-detail-item {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
 
 @keyframes marquee {
   0% { transform: translateX(0); }

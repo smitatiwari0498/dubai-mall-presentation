@@ -82,7 +82,8 @@ const EventsSlide = () => {
           </div>
 
           <div className="relative w-full aspect-video overflow-hidden rounded-sm border border-white/5 group shadow-2xl cursor-pointer hidden sm:block">
-            <video autoPlay muted loop playsInline className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105">
+            <video autoPlay muted loop playsInline
+             preload="none" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105">
               <source src={assets.EventShow} type="video/mp4" />
             </video>
           </div>

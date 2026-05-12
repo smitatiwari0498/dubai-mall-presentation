@@ -31,6 +31,7 @@ const DetailModal = ({ isOpen, onClose, data }) => {
               muted 
               loop 
               playsInline 
+              preload="none"
               className="w-full h-full object-cover"
             />
           ) : (
