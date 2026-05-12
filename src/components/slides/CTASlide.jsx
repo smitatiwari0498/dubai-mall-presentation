@@ -7,39 +7,65 @@ const CTASlide = () => {
   const buttonRef = useRef();
 
   useGSAP(() => {
-    gsap.from(".cta-content", { opacity: 0, scale: 0.95, duration: 1.2 });
+    // Initial entrance animation
+    gsap.from(".cta-content > *", { 
+      y: 40, 
+      opacity: 0, 
+      stagger: 0.2, 
+      duration: 1.5, 
+      ease: "power4.out" 
+    });
   }, { scope: container });
 
   const handleMouseMove = (e) => {
     const r = buttonRef.current.getBoundingClientRect();
-    const dx = e.clientX - (r.left + r.width / 2);
-    const dy = e.clientY - (r.top + r.height / 2);
-    gsap.to(buttonRef.current, { x: dx * 0.3, y: dy * 0.4, duration: 0.4 });
+    // Magnetic intensity ko control karne ke liye
+    const x = (e.clientX - r.left - r.width / 2) * 0.4;
+    const y = (e.clientY - r.top - r.height / 2) * 0.4;
+    gsap.to(buttonRef.current, { x, y, duration: 0.4 });
   };
 
   const handleMouseLeave = () => {
-    gsap.to(buttonRef.current, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.3)' });
+    gsap.to(buttonRef.current, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
   };
 
   return (
-    <div ref={container} className="h-full w-full flex items-center justify-center bg-[#080808] relative overflow-hidden px-6">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_#c9a84c1a_0%,_transparent_60%)]" />
+    <div ref={container} className="h-screen w-full flex items-center justify-center bg-[#050505] relative overflow-hidden px-6">
+      {/* Background Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#c9a84c12_0%,transparent_70%)]" />
+      
       <div className="cta-content relative z-10 text-center">
-        <p className="text-[10px] tracking-[0.8em] uppercase text-[#c9a84c] mb-8">Plan Your Visit</p>
-        <h2 className="text-6xl lg:text-9xl font-serif font-light mb-16 tracking-tight uppercase">Experience <br /><em className="italic">Greatness.</em></h2>
+        <p className="text-[10px] tracking-[0.8em] uppercase text-[#c9a84c] mb-6 opacity-80">Plan Your Visit</p>
+        
+        <h2 className="text-5xl lg:text-8xl font-serif font-light mb-12 tracking-tighter text-white leading-tight">
+          EXPERIENCE <br />
+          <span className="italic text-[#c9a84c] opacity-90">GREATNESS.</span>
+        </h2>
+
+        {/* Updated Premium Button */}
         <button 
           ref={buttonRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="px-10 lg:px-16 py-5 lg:py-6 border border-[#c9a84c] text-[#c9a84c] text-[10px] lg:text-[12px] tracking-[0.5em] uppercase hover:bg-[#c9a84c] hover:text-black transition-colors duration-500"
+          className="relative group px-12 py-5 overflow-hidden"
         >
-          Explore Mall Map
+          {/* Glassmorphism Background Layer */}
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-md border border-[#c9a84c]/40 group-hover:border-[#c9a84c] transition-all duration-500 rounded-sm" />
+          
+          {/* Text Layer */}
+          <span className="relative z-10 text-[#c9a84c] text-[10px] tracking-[0.6em] uppercase group-hover:text-white transition-colors duration-500">
+            Explore Mall Map
+          </span>
         </button>
       </div>
-      <footer className="absolute bottom-10 w-full flex flex-col sm:flex-row justify-between px-10 lg:px-20 text-[8px] tracking-[0.4em] text-white/30 uppercase gap-4 text-center sm:text-left">
-        <span>© 2026 Dubai Mall. All Rights Reserved.</span>
+
+      {/* Footer refined */}
+      <footer className="absolute bottom-10 w-full flex flex-col md:flex-row justify-between px-10 lg:px-20 text-[7px] tracking-[0.4em] text-white uppercase gap-4">
+        <span className="hover:text-white/50 transition-colors cursor-default">© 2026 Dubai Mall. Excellence Redefined.</span>
         <div className="flex justify-center gap-8">
-          <span>Instagram</span><span>Twitter</span><span>YouTube</span>
+          {['Instagram', 'Twitter', 'YouTube'].map(link => (
+            <span key={link} className="hover:text-[#c9a84c] cursor-pointer transition-colors duration-300">{link}</span>
+          ))}
         </div>
       </footer>
     </div>
