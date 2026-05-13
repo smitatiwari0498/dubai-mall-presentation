@@ -1,16 +1,28 @@
-# React + Vite
+# Dubai Mall - Luxury Digital Experience 🏛️✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A high-end, immersive web experience built with **React** and **GSAP**, designed to showcase the grandeur of the Dubai Mall. This project focuses on smooth transitions, premium typography, and a cinematic user interface.
 
-Currently, two official plugins are available:
+## 🌟 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* **Cinematic Hero Section:** Immersive video transitions and motion-controlled typography.
+* **Interactive Event Timeline:** A custom-built vertical timeline for upcoming mall events.
+* **Dynamic Stats & Counting:** Animated counters for mall statistics using GSAP.
+* **Premium Navigation:** Sleek, glassmorphic navbar with smooth scroll integration.
+* **Responsive Luxury:** Fully optimized for all devices, from ultra-wide desktops to mobile screens.
+* **Custom Modal System:** Elegant detail views for events and retail categories.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Frontend:** [React.js](https://reactjs.org/)
+* **Animations:** [GSAP (GreenSock Animation Platform)](https://greensock.com/gsap/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **Build Tool:** [Vite](https://vitejs.dev/)
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Follow these steps to run the project locally:
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/smitatiwari0498/dubai-mall-presentation.git
+cd dubai-mall-presentation
